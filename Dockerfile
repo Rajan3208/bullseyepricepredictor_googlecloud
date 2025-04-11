@@ -16,6 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY model/ ./model/
 COPY app.py .
 
+# Verify model files exist
+RUN ls -la model/
+
 # Set environment variables
 ENV MODEL_PATH=model/GOOG_prediction_model.keras
 ENV SCALER_PATH=model/scaler.pkl
@@ -25,4 +28,4 @@ ENV PORT=8080
 EXPOSE 8080
 
 # Run the application
-CMD ["python", "app.py"]
+CMD ["python", "-u", "app.py"]
