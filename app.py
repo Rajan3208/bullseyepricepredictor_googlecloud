@@ -80,4 +80,12 @@ def predict():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
+    print(f"Starting server on port {port}")
+    # Check if model files exist
+    print(f"Checking model files:")
+    print(f"Model path exists: {os.path.exists(model_path)}")
+    print(f"Scaler path exists: {os.path.exists(scaler_path)}")
+    print(f"Current directory: {os.getcwd()}")
+    print(f"Files in model directory: {os.listdir('model/')}")
+    
+    app.run(host='0.0.0.0', port=port, debug=True)
