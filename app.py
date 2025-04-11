@@ -1,3 +1,7 @@
+
+import logging
+logging.basicConfig(level=logging.INFO)
+
 from flask import Flask, request, jsonify
 import numpy as np
 import pandas as pd
@@ -14,6 +18,9 @@ scaler_path = os.environ.get('SCALER_PATH', 'model/scaler.pkl')
 
 # Load the model
 model = tf.keras.models.load_model(model_path)
+
+logging.info(f"Checking if model file exists at: {model_path}")
+logging.info(f"Directory contents: {os.listdir('model/')}")
 
 # Load the scaler
 with open(scaler_path, 'rb') as f:
