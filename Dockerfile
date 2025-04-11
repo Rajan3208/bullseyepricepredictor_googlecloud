@@ -27,5 +27,5 @@ ENV PORT=8080
 # Expose the port
 EXPOSE 8080
 
-# Run the application
-CMD ["python", "-u", "app.py"]
+# Run the application with gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--timeout", "120", "app:app"]
