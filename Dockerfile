@@ -8,19 +8,14 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first to leverage Docker cache
+# Copy requirements first
 COPY requirements.txt .
-
-# Install dependencies with specific versions
 RUN pip install flask==2.0.1 werkzeug==2.0.1 gunicorn==20.1.0
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the model and application code
 COPY model/ ./model/
 COPY app.py .
-
-# Verify model files exist
-RUN ls -la model/
 
 # Set environment variables
 ENV MODEL_PATH=model/GOOG_prediction_model.keras
@@ -30,5 +25,5 @@ ENV PORT=8080
 # Expose the port
 EXPOSE 8080
 
-# Run the application with gunicorn for better performance
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 300 app:app
+# Use exec form of CMD to ensure proper signal handling
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "300", "app:app"]
